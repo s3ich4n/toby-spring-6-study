@@ -4,17 +4,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import s3ich4n.spring6.exrate.CachedExRateProvider;
 import s3ich4n.spring6.payment.ExRateProvider;
-import s3ich4n.spring6.payment.ExRateProviderStub;
+import s3ich4n.spring6.exrate.WebApiExRateProvider;
 import s3ich4n.spring6.payment.PaymentService;
 
-import java.math.BigDecimal;
+import java.time.Clock;
 
 @Configuration
-public class TestObjectFactory {
+public class PaymentConfig {
 
     @Bean
     public PaymentService paymentService() {
-        return new PaymentService(cachedExRateProvider());
+        return new PaymentService(cachedExRateProvider(), clock());
     }
 
     @Bean
@@ -24,6 +24,9 @@ public class TestObjectFactory {
 
     @Bean
     public ExRateProvider exRateProvider() {
-        return new ExRateProviderStub(BigDecimal.valueOf(1_000));
+        return new WebApiExRateProvider();
     }
+
+    @Bean
+    public Clock clock() { return Clock.systemDefaultZone(); }
 }
