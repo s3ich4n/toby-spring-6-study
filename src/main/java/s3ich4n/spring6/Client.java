@@ -1,15 +1,16 @@
 package s3ich4n.spring6;
 
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 
 public class Client {
     public static void main(String[] args) throws IOException {
-        // 객체를 만드는 역할 분리
-        ObjectFactory objectFactory = new ObjectFactory();
-        PaymentService paymentService = objectFactory.paymentService();
+        BeanFactory beanFactory = new AnnotationConfigApplicationContext(ObjectFactory.class);
+        PaymentService paymentService = beanFactory.getBean(PaymentService.class);
 
-        // 객체를 사용하는 역할 분리
         Payment payment = paymentService.prepare(100L, "USD", BigDecimal.valueOf(50.7));
         System.out.println(payment);
     }
