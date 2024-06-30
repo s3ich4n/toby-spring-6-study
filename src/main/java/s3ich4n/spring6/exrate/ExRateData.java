@@ -1,4 +1,4 @@
-package s3ich4n.spring6;
+package s3ich4n.spring6.exrate;
 
 import java.math.BigDecimal;
 import java.util.Map;
