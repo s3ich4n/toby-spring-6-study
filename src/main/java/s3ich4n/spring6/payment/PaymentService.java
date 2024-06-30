@@ -1,4 +1,4 @@
-package s3ich4n.spring6;
+package s3ich4n.spring6.payment;
 
 import org.springframework.stereotype.Component;
 
