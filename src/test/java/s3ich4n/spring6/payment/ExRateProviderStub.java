@@ -11,11 +11,6 @@ public class ExRateProviderStub implements ExRateProvider {
         this.exRate = exRate;
     }
 
-    @Override
-    public BigDecimal getExRate(String currency) throws IOException {
-        return exRate;
-    }
-
     public BigDecimal getExRate() {
         return exRate;
     }
@@ -23,4 +18,10 @@ public class ExRateProviderStub implements ExRateProvider {
     public void setExRate(BigDecimal exRate) {
         this.exRate = exRate;
     }
+
+    @Override
+    public BigDecimal getExRate(String currency) throws IOException {
+        return exRate;
+    }
+
 }
