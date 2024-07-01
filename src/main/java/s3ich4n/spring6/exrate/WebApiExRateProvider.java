@@ -1,51 +1,34 @@
 package s3ich4n.spring6.exrate;
 
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import s3ich4n.spring6.api.ApiExecutor;
+import s3ich4n.spring6.api.ApiTemplate;
 import s3ich4n.spring6.api.ErApiExRateExtractor;
-import s3ich4n.spring6.api.ExRateExecutor;
 import s3ich4n.spring6.api.SimpleApiExecutor;
 import s3ich4n.spring6.payment.ExRateProvider;
 
 public class WebApiExRateProvider implements ExRateProvider {
+    ApiTemplate apiTemplate = new ApiTemplate();    // thread-safe 하게
 
     public BigDecimal getExRate(String currency) {
+
         String url = "https://open.er-api.com/v6/latest/" + currency;
 
-         return runApiForExRate(url, new SimpleApiExecutor(), new ErApiExRateExtractor());
-    }
+        return apiTemplate.getExRate(url, uri -> {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(uri)
+                    .GET()
+                    .build();
 
-    private static BigDecimal runApiForExRate(String url, ApiExecutor apiExecutor, ExRateExecutor exRateExecutor) {
-        URI uri = null;
-        try {
-            uri = new URI(url);
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
+            try (HttpClient client = HttpClient.newBuilder().build()) {
+                return client.send(request, HttpResponse.BodyHandlers.ofString()).body();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
 
-        String response = null;
-
-        try {
-            // 서비스가 종료되면?
-            // 비동기로 콜할거면?
-            response = apiExecutor.execute(uri);
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        try {
-            // 다른데 콜해서 파싱법이 바뀌면?
-            // 다른 성능좋은 라이브러리를 쓰면?
-            return exRateExecutor.extract(response);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+        }, new ErApiExRateExtractor());
     }
 }
