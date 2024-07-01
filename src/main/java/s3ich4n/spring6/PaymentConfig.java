@@ -2,6 +2,7 @@ package s3ich4n.spring6;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import s3ich4n.spring6.api.ApiTemplate;
 import s3ich4n.spring6.exrate.CachedExRateProvider;
 import s3ich4n.spring6.payment.ExRateProvider;
 import s3ich4n.spring6.exrate.WebApiExRateProvider;
@@ -23,8 +24,13 @@ public class PaymentConfig {
     }
 
     @Bean
+    public ApiTemplate apiTemplate() {
+        return new ApiTemplate();
+    }
+
+    @Bean
     public ExRateProvider exRateProvider() {
-        return new WebApiExRateProvider();
+        return new WebApiExRateProvider(apiTemplate());
     }
 
     @Bean
