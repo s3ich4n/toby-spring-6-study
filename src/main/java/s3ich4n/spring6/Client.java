@@ -5,11 +5,10 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import s3ich4n.spring6.payment.Payment;
 import s3ich4n.spring6.payment.PaymentService;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 
 public class Client {
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) {
         BeanFactory beanFactory = new AnnotationConfigApplicationContext(PaymentConfig.class);
         PaymentService paymentService = beanFactory.getBean(PaymentService.class);
 

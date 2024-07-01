@@ -9,7 +9,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import s3ich4n.spring6.TestPaymentConfig;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Clock;
 import java.time.LocalDateTime;
@@ -27,7 +26,7 @@ class PaymentServiceSpringTest {
 
     @Test
     @DisplayName("prepare 메소드의 요구사항 충족 확인")
-    void convertedAmount() throws IOException {
+    void convertedAmount() {
         // exRate: 1000
         Payment payment = paymentService.prepare(1L, "USD", BigDecimal.TEN);
 
@@ -43,7 +42,7 @@ class PaymentServiceSpringTest {
     }
 
     @Test
-    void validUntil() throws IOException {
+    void validUntil() {
         Payment payment = paymentService.prepare(1L, "USD", BigDecimal.TEN);
 
         LocalDateTime now = LocalDateTime.now(this.clock);
