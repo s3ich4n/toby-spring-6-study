@@ -18,6 +18,11 @@ public class WebApiExRateProvider implements ExRateProvider {
     // exception 처리가 너무 단호하다. 그걸 다 쳐냈다
     public BigDecimal getExRate(String currency) {
         String url = "https://open.er-api.com/v6/latest/" + currency;
+
+        return runApiForExRate(url);
+    }
+
+    private static BigDecimal runApiForExRate(String url) {
         URI uri = null;
         try {
             uri = new URI(url);
@@ -39,13 +44,13 @@ public class WebApiExRateProvider implements ExRateProvider {
         try {
             // 다른데 콜해서 파싱법이 바뀌면?
             // 다른 성능좋은 라이브러리를 쓰면?
-            return parseExRate(response);
+            return extractExRate(response);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private static BigDecimal parseExRate(String response) throws JsonProcessingException {
+    private static BigDecimal extractExRate(String response) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         ExRateData exRateData = mapper.readValue(response, ExRateData.class);
         return exRateData.rates().get("KRW");
