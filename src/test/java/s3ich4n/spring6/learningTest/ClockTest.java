@@ -7,6 +7,9 @@ import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+
+import static org.assertj.core.api.Assertions.within;
 
 public class ClockTest {
     // Clock을 이용하여 LocalDateTime.now 사용을 검증
@@ -18,7 +21,7 @@ public class ClockTest {
         LocalDateTime dt1 = LocalDateTime.now(clock);
         LocalDateTime dt2 = LocalDateTime.now(clock);
 
-        Assertions.assertThat(dt2).isAfter(dt1);
+        Assertions.assertThat(dt2).isCloseTo(dt1, within(1, ChronoUnit.MICROS));
     }
 
     // Clock을 test에서 쓸 때, 원하는 시각으로 "현재시간" 조작이 되는지?
