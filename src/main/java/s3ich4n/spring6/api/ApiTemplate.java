@@ -17,6 +17,11 @@ public class ApiTemplate {
         this.defaultExRateExecutor = new ErApiExRateExtractor();
     }
 
+    public ApiTemplate(ApiExecutor defaultApiExecutor, ExRateExecutor defaultExRateExecutor) {
+        this.defaultApiExecutor = defaultApiExecutor;
+        this.defaultExRateExecutor = defaultExRateExecutor;
+    }
+
     public BigDecimal getExRate(String url) {
         return this.getExRate(url, this.defaultApiExecutor, this.defaultExRateExecutor);
     }
