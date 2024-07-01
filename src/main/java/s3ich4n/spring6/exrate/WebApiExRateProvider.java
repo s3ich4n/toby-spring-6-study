@@ -7,19 +7,19 @@ import java.net.URISyntaxException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import s3ich4n.spring6.api.ApiExecutor;
 import s3ich4n.spring6.api.SimpleApiExecutor;
 import s3ich4n.spring6.payment.ExRateProvider;
 
 public class WebApiExRateProvider implements ExRateProvider {
 
-    // exception 처리가 너무 단호하다. 그걸 다 쳐냈다
     public BigDecimal getExRate(String currency) {
         String url = "https://open.er-api.com/v6/latest/" + currency;
 
-        return runApiForExRate(url);
+         return runApiForExRate(url, new SimpleApiExecutor());
     }
 
-    private static BigDecimal runApiForExRate(String url) {
+    private static BigDecimal runApiForExRate(String url, ApiExecutor apiExecutor) {
         URI uri = null;
         try {
             uri = new URI(url);
@@ -32,7 +32,7 @@ public class WebApiExRateProvider implements ExRateProvider {
         try {
             // 서비스가 종료되면?
             // 비동기로 콜할거면?
-            response = new SimpleApiExecutor().execute(uri);
+            response = apiExecutor.execute(uri);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
