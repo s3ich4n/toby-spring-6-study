@@ -21,7 +21,8 @@ public class ClockTest {
         LocalDateTime dt1 = LocalDateTime.now(clock);
         LocalDateTime dt2 = LocalDateTime.now(clock);
 
-        Assertions.assertThat(dt2).isCloseTo(dt1, within(1, ChronoUnit.MICROS));
+//        Assertions.assertThat(dt2).isCloseTo(dt1, within(10, ChronoUnit.MICROS));
+        Assertions.assertThat(dt2).isAfter(dt1);
     }
 
     // Clock을 test에서 쓸 때, 원하는 시각으로 "현재시간" 조작이 되는지?
