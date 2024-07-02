@@ -27,6 +27,8 @@ public class PaymentConfig {
 
     @Bean
     public ApiTemplate apiTemplate() {
+        // 어떤 전략을 넣느냐에 따라 대응이 가능하다.
+        //      중요: 그 흐름은 템플릿-콜백과 다를게 없다
         return new ApiTemplate(new SimpleApiExecutor(), new ErApiExRateExtractor());
     }
 
