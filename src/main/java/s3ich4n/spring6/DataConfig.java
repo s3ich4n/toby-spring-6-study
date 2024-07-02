@@ -1,11 +1,14 @@
 package s3ich4n.spring6;
 
 import jakarta.persistence.EntityManagerFactory;
+import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import s3ich4n.spring6.data.OrderRepository;
@@ -34,9 +37,21 @@ public class DataConfig {
         return emf;
     }
 
+    // 설명없이 간 내용 (1)
+    @Bean
+    public BeanPostProcessor persistenceAnnotationBeanPostProcessor() {
+        return new PersistenceAnnotationBeanPostProcessor();
+    }
+
+    // 설명없이 간 내용 (2)
+    @Bean
+    public JpaTransactionManager transactionManager(EntityManagerFactory emf) {
+        return new JpaTransactionManager(emf);
+    }
+
     // 얘는 팩토리 빈이라 파라미터를 다르게 처리해야댐
     @Bean
-    public OrderRepository orderRepository(EntityManagerFactory emf) {
-        return new OrderRepository(emf);
+    public OrderRepository orderRepository() {
+        return new OrderRepository();
     }
 }
