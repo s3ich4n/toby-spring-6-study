@@ -17,12 +17,7 @@ public class TestPaymentConfig {
 
     @Bean
     public PaymentService paymentService() {
-        return new PaymentService(cachedExRateProvider(), clock());
-    }
-
-    @Bean
-    public ExRateProvider cachedExRateProvider() {
-        return new CachedExRateProvider(exRateProvider());
+        return new PaymentService(exRateProvider(), clock());
     }
 
     @Bean
