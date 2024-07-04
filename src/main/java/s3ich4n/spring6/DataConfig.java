@@ -48,10 +48,4 @@ public class DataConfig {
     public JpaTransactionManager transactionManager(EntityManagerFactory emf) {
         return new JpaTransactionManager(emf);
     }
-
-    // 얘는 팩토리 빈이라 파라미터를 다르게 처리해야댐
-    @Bean
-    public OrderRepository orderRepository() {
-        return new OrderRepository();
-    }
 }
