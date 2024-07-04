@@ -11,6 +11,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 
@@ -42,9 +43,9 @@ public class DataConfig {
         return new PersistenceAnnotationBeanPostProcessor();
     }
 
-    // 설명없이 간 내용 (2)
+    // 트랜잭션 관리 -> 추상화를 하기 위해 업캐스트 됨에 유의!
     @Bean
-    public JpaTransactionManager transactionManager(EntityManagerFactory emf) {
+    public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
         return new JpaTransactionManager(emf);
     }
 }
