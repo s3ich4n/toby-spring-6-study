@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.orm.jpa.JpaTransactionManager;
+import s3ich4n.spring6.data.JdbcOrderRepository;
 import s3ich4n.spring6.data.JpaOrderRepository;
 import s3ich4n.spring6.order.OrderRepository;
 import s3ich4n.spring6.order.OrderService;
@@ -16,7 +17,7 @@ public class OrderConfig {
         return new OrderService(orderRepository(), jpaTransactionManager);
     }
 
-    // 얘는 팩토리 빈이라 파라미터를 다르게 처리해야댐
+    // 구성정보는 이렇게 깔끔하게 치워줄 수 있다
     @Bean
     public OrderRepository orderRepository() {
         return new JpaOrderRepository();
