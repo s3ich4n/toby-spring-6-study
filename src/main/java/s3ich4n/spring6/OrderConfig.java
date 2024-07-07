@@ -7,25 +7,29 @@ import org.springframework.transaction.PlatformTransactionManager;
 import s3ich4n.spring6.data.JdbcOrderRepository;
 import s3ich4n.spring6.order.OrderRepository;
 import s3ich4n.spring6.order.OrderService;
+import s3ich4n.spring6.order.OrderServiceImpl;
+import s3ich4n.spring6.order.OrderServiceTxProxy;
 
 import javax.sql.DataSource;
 
 @Configuration
 @Import(DataConfig.class)
 public class OrderConfig {
-    // 구성정보는 이렇게 깔끔하게 치워줄 수 있다
     @Bean
     public OrderRepository orderRepository(DataSource dataSource) {
         return new JdbcOrderRepository(dataSource);
     }
 
-    // OrderRepository를 생성자 파라미터로 바로 넘겨주는 방법
-    // 굳이 메소드를 호출하면서 DataSource를 또 직접 넘겨줄 필요가 없어짐
+    // 리턴타입은 업캐스팅
+    // 실제 쓰는거는 다운캐스팅
     @Bean
     public OrderService orderService(
-            PlatformTransactionManager jpaTransactionManager,
+            PlatformTransactionManager transactionManager,
             OrderRepository orderRepository
     ) {
-        return new OrderService(orderRepository, jpaTransactionManager);
+        return new OrderServiceTxProxy(
+                new OrderServiceImpl(orderRepository),
+                transactionManager
+        );
     }
 }
