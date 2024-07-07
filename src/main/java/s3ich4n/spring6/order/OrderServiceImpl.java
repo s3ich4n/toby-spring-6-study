@@ -1,11 +1,13 @@
 package s3ich4n.spring6.order;
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 @Service
+@Transactional
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository jpaOrderRepository;
 
