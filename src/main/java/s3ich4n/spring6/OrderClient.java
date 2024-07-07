@@ -7,7 +7,7 @@ import s3ich4n.spring6.order.OrderService;
 
 import java.math.BigDecimal;
 
-public class DataClient {
+public class OrderClient {
     public static void main(String[] args) {
         BeanFactory beanFactory = new AnnotationConfigApplicationContext(OrderConfig.class);
         OrderService service = beanFactory.getBean(OrderService.class);
